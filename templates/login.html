@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Login | MedFund</title>
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Raleway:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Style -->
+  <link rel="stylesheet" href="/static/css/modern_style.css">
+  <style>
+    .auth-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(12, 184, 182, 0.1) 0%, rgba(255, 255, 255, 1) 100%);
+    }
+
+    .auth-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .auth-logo {
+      color: var(--primary);
+      font-size: 2rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation (Optional, or simple back button) -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <i class="fa-solid fa-heart-pulse"></i> MedFund
+      </a>
+      <a href="/" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-arrow-left"></i> Home</a>
+    </div>
+  </nav>
+
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-logo">User Login</div>
+
+      <form action="" method="post">
+        <div class="mb-3">
+          <label for="uname" class="form-label">Username</label>
+          <input type="text" class="form-control" name="uname" id="uname" placeholder="Enter username" required>
+        </div>
+        <div class="mb-3">
+          <label for="pass" class="form-label">Password</label>
+          <input type="password" class="form-control" name="pass" id="pass" placeholder="Enter password" required>
+        </div>
+
+        <div class="d-grid gap-2 mb-3">
+          <button type="submit" class="btn btn-modern">Sign In</button>
+        </div>
+
+        {% if msg %}
+        <div class="alert alert-danger text-center" role="alert">
+          {{msg}}
+        </div>
+        {% endif %}
+
+        <div class="text-center mt-3">
+          <p class="text-muted">Don't have an account? <a href="/reg_user">Sign Up</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Button loading
+    document.querySelector('form').addEventListener('submit', function (e) {
+      const btn = this.querySelector('button[type="submit"]');
+      btn.classList.add('loading');
+    });
+  </script>
+</body>
+
+</html>

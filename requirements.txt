@@ -1,0 +1,16 @@
+
+flask==2.3.3
+mysql-connector-python
+opencv-python-headless
+pytesseract
+Pillow
+gunicorn
+numpy
+pandas
+scikit-image
+PyMuPDF
+python-docx
+diff-match-patch
+spire.doc
+Werkzeug
+matplotlib
