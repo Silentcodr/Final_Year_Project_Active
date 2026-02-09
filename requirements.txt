@@ -14,3 +14,5 @@ diff-match-patch
 spire.doc
 Werkzeug
 matplotlib
+imagehash
+PyPDF2
