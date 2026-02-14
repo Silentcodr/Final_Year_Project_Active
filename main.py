@@ -40,9 +40,14 @@ def get_db_connection():
     user = os.environ.get("DB_USER", "root")
     password = os.environ.get("DB_PASS", "")
     database = os.environ.get("DB_NAME", "medical_fundraising")
-    port = os.environ.get("DB_PORT", 3306)
+    
+    # Parse port safely
+    try:
+        port = int(os.environ.get("DB_PORT", 3306))
+    except ValueError:
+        port = 3306
 
-    print(f"Attempting to connect to DB at host='{host}', port={port}, user='{user}', database='{database}'")
+    print(f"Connecting to DB: {host}:{port}/{database} as {user}")
 
     return mysql.connector.connect(
       host=host,
