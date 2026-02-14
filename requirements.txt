@@ -16,3 +16,6 @@ Werkzeug
 matplotlib
 imagehash
 PyPDF2
+pytest
+pytest-cov
+mock

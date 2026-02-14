@@ -33,14 +33,16 @@ import pandas as pd
 import numpy as np
 import mysql.connector
 
-mydb = mysql.connector.connect(
-  host=os.environ.get("DB_HOST", "localhost"),
-  user=os.environ.get("DB_USER", "root"),
-  passwd=os.environ.get("DB_PASS", ""),
-  charset="utf8",
-  database=os.environ.get("DB_NAME", "medical_fundraising")
-)
 app = Flask(__name__)
+
+def get_db_connection():
+    return mysql.connector.connect(
+      host=os.environ.get("DB_HOST", "localhost"),
+      user=os.environ.get("DB_USER", "root"),
+      passwd=os.environ.get("DB_PASS", ""),
+      charset="utf8",
+      database=os.environ.get("DB_NAME", "medical_fundraising")
+    )
 ##session key
 app.secret_key = os.environ.get("SECRET_KEY", "abcdef")
 #######
@@ -61,6 +63,7 @@ def index():
 
 @app.route('/login_admin', methods=['GET', 'POST'])
 def login_admin():
+    mydb = get_db_connection()
     msg=""
     
     if request.method=='POST':
@@ -79,6 +82,7 @@ def login_admin():
 
 @app.route('/login_donator', methods=['GET', 'POST'])
 def login_donator():
+    mydb = get_db_connection()
     msg=""
     
     if request.method=='POST':
@@ -97,6 +101,7 @@ def login_donator():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    mydb = get_db_connection()
     msg=""
     
     if request.method=='POST':
@@ -116,6 +121,7 @@ def login():
 
 @app.route('/reg_user',methods=['POST','GET'])
 def reg_user():
+    mydb = get_db_connection()
     msg=""
     act=""
     if request.method=='POST':
@@ -160,6 +166,7 @@ def reg_user():
 
 @app.route('/reg_donator',methods=['POST','GET'])
 def reg_donator():
+    mydb = get_db_connection()
     msg=""
     act=""
     mycursor = mydb.cursor()
@@ -207,6 +214,7 @@ def reg_donator():
 
 @app.route('/userhome',methods=['POST','GET'])
 def userhome():
+    mydb = get_db_connection()
     msg=""
     uname=""
     if 'username' in session:
@@ -257,6 +265,7 @@ def sha256_hash(file_path):
     
 @app.route('/add_post',methods=['POST','GET'])
 def add_post():
+    mydb = get_db_connection()
     msg=""
     uname=""
     pid=request.args.get("pid")
@@ -406,6 +415,7 @@ def add_post():
 
 @app.route('/verify1',methods=['POST','GET'])
 def verify1():
+    mydb = get_db_connection()
     msg=""
     uname=""
     st=""
@@ -483,6 +493,7 @@ def highlight_differences(text1, text2):
 
 @app.route('/add_attach', methods=['GET', 'POST'])
 def add_attach():
+    mydb = get_db_connection()
     msg=""
     st=""
     data2=[]
@@ -1185,6 +1196,7 @@ def test_Fuzzywuzzy():
 
 @app.route('/verify',methods=['POST','GET'])
 def verify():
+    mydb = get_db_connection()
     msg=""
     uname=""
     st=""
@@ -1345,6 +1357,7 @@ def extract_text(file1):
 
 @app.route('/verify_file',methods=['POST','GET'])
 def verify_file():
+    mydb = get_db_connection()
     msg=""
     uname=""
     d1=[]
@@ -1753,6 +1766,7 @@ def verify_file():
 
 @app.route('/admin',methods=['POST','GET'])
 def admin():
+    mydb = get_db_connection()
     msg=""
     uname=""
     if 'username' in session:
@@ -1767,6 +1781,7 @@ def admin():
 
 @app.route('/admin2',methods=['POST','GET'])
 def admin2():
+    mydb = get_db_connection()
     msg=""
     uname=""
     if 'username' in session:
@@ -1783,6 +1798,7 @@ def admin2():
 
 @app.route('/user_post',methods=['POST','GET'])
 def user_post():
+    mydb = get_db_connection()
     msg=""
     uname=""
     if 'username' in session:
@@ -1800,6 +1816,7 @@ def user_post():
 
 @app.route('/user_donate',methods=['POST','GET'])
 def user_donate():
+    mydb = get_db_connection()
     msg=""
     uname=""
     st=""
@@ -1824,6 +1841,7 @@ def user_donate():
 
 @app.route('/user_fund',methods=['POST','GET'])
 def user_fund():
+    mydb = get_db_connection()
     msg=""
     uname=""
     st=""
@@ -1848,6 +1866,7 @@ def user_fund():
 
 @app.route('/dr_home',methods=['POST','GET'])
 def dr_home():
+    mydb = get_db_connection()
     msg=""
     uname=""
     if 'username' in session:
@@ -1865,6 +1884,7 @@ def dr_home():
 
 @app.route('/dr_donate',methods=['POST','GET'])
 def dr_donate():
+    mydb = get_db_connection()
     msg=""
     uname=""
     st=""
@@ -1917,6 +1937,7 @@ def dr_donate():
 
 @app.route('/dr_post',methods=['POST','GET'])
 def dr_post():
+    mydb = get_db_connection()
     msg=""
     uname=""
     if 'username' in session:
@@ -1934,6 +1955,7 @@ def dr_post():
 
 @app.route('/dr_bill', methods=['GET', 'POST'])
 def dr_bill():
+    mydb = get_db_connection()
     msg=""
     st=""
     data2=[]
@@ -2038,6 +2060,7 @@ def dr_bill():
 
 @app.route('/dr_fund',methods=['POST','GET'])
 def dr_fund():
+    mydb = get_db_connection()
     msg=""
     uname=""
     st=""
