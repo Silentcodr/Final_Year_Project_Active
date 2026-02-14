@@ -36,12 +36,21 @@ import mysql.connector
 app = Flask(__name__)
 
 def get_db_connection():
+    host = os.environ.get("DB_HOST", "localhost")
+    user = os.environ.get("DB_USER", "root")
+    password = os.environ.get("DB_PASS", "")
+    database = os.environ.get("DB_NAME", "medical_fundraising")
+    port = os.environ.get("DB_PORT", 3306)
+
+    print(f"Attempting to connect to DB at host='{host}', port={port}, user='{user}', database='{database}'")
+
     return mysql.connector.connect(
-      host=os.environ.get("DB_HOST", "localhost"),
-      user=os.environ.get("DB_USER", "root"),
-      passwd=os.environ.get("DB_PASS", ""),
+      host=host,
+      user=user,
+      passwd=password,
       charset="utf8",
-      database=os.environ.get("DB_NAME", "medical_fundraising")
+      database=database,
+      port=port
     )
 ##session key
 app.secret_key = os.environ.get("SECRET_KEY", "abcdef")
