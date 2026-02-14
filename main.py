@@ -49,14 +49,18 @@ def get_db_connection():
 
     print(f"Connecting to DB: {host}:{port}/{database} as {user}")
 
-    return mysql.connector.connect(
-      host=host,
-      user=user,
-      passwd=password,
-      charset="utf8",
-      database=database,
-      port=port
-    )
+    try:
+        return mysql.connector.connect(
+          host=host,
+          user=user,
+          passwd=password,
+          charset="utf8",
+          database=database,
+          port=port
+        )
+    except Exception as e:
+        print(f"ERROR CONNECTING TO DB: {e}")
+        raise e
 ##session key
 app.secret_key = os.environ.get("SECRET_KEY", "abcdef")
 #######
@@ -74,6 +78,28 @@ def index():
     #print(rtime)
 
     return render_template('index.html',msg=msg,act=act)
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    """Diagnostic route to check DB connection."""
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT 1")
+        return f"Database Connection: OK!<br>Host: {os.environ.get('DB_HOST', 'Not Set')}<br>Port: {os.environ.get('DB_PORT', 'Not Set')}", 200
+    except Exception as e:
+        return f"Database Connection FAILED: {str(e)}", 500
+
+@app.route('/debug_login', methods=['GET'])
+def debug_login():
+    """Diagnostic route to check DB connection parameters."""
+    return {
+        "DB_HOST": os.environ.get('DB_HOST', 'Not Set'),
+        "DB_USER": os.environ.get('DB_USER', 'Not Set'),
+        "DB_PORT": os.environ.get('DB_PORT', 'Not Set'),
+        "DB_NAME": os.environ.get('DB_NAME', 'Not Set'),
+        "SSL_DISABLED": "True" 
+    }
 
 @app.route('/login_admin', methods=['GET', 'POST'])
 def login_admin():
