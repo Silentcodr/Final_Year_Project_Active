@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 def test_index(client):
     response = client.get('/')
     assert response.status_code == 200
-    assert b'index.html' in response.data or response.template == 'index.html' # Depending on how templates render in test
+    assert b'MedFund' in response.data
 
 def test_login_admin_get(client):
     response = client.get('/login_admin')

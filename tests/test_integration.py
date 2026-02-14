@@ -14,7 +14,9 @@ def test_user_registration_flow(client, mock_db_connection):
     mock_conn, mock_cursor = mock_db_connection
     
     # Setup mock to simulate no existing user (so registration proceeds)
-    mock_cursor.fetchone.return_value = None 
+    # 1. SELECT count(*) -> (0,)
+    # 2. SELECT max(id)+1 -> (1,)
+    mock_cursor.fetchone.side_effect = [(0,), (1,)] 
 
     data = {
         'name': 'Test User',
@@ -35,8 +37,7 @@ def test_user_registration_flow(client, mock_db_connection):
     response = client.post('/reg_user', data=data, follow_redirects=True)
     
     assert response.status_code == 200
-    # Check if we see the success message or are redirected to login
-    # The view renders 'reg_user.html' with msg='success'
+    # Check if we see the success message
     assert b'Registered Successfully' in response.data
 
 def test_user_login_flow(client, mock_db_connection):
@@ -58,4 +59,4 @@ def test_user_login_flow(client, mock_db_connection):
     # Should redirect to user_home or similar, or show user home content
     # Since we don't have user_home template mocked, we check for status or session
     with client.session_transaction() as sess:
-        assert sess['uname'] == 'testuser'
+        assert sess['username'] == 'testuser'
